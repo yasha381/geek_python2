@@ -1,4 +1,4 @@
-from client import Client
+from client import *
 
 class TestClient:
     def test_init(self):
@@ -20,3 +20,4 @@ if __name__ == "__main__":
     test_client.test_init()
     test_client.test_start_serv_off()
     test_client.test_start_serv_on()
+    main()
