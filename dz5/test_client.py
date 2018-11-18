@@ -1,4 +1,5 @@
 from client import *
+import pytest
 
 class TestClient:
     def test_init(self):
