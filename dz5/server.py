@@ -7,6 +7,7 @@ from log import server_log_config
 
 logger = logging.getLogger('server_log')
 
+
 class Server:
     def __init__(self, address, port):
         self.address = address
@@ -15,14 +16,12 @@ class Server:
             'authenticate': self.handle_authenticate
         }
 
-    
     def handle_authenticate(self, request):
         logger.info('Проверка аутентификации')
         if request['user'] == {'account_name': 'test', 'password': 'test'}:
             return {'response': 200}
 
         return {'response': 402, 'error': 'wrong password'}
-
 
     def handler(self, request: Dict[str, object]):
         logger.info('Производится обработка сообщения')
@@ -45,7 +44,7 @@ class Server:
 
     def start(self):
         logger.info('Запуск сервера')
-        
+
         with socket(AF_INET, SOCK_STREAM) as s:
             s.bind((self.address, self.port))
             s.listen(1)
@@ -55,23 +54,24 @@ class Server:
                 with client:
                     data_b = client.recv(1000000)
                     logger.info('Принято сообщение от клиента')
-                    
+
                     client.send(self.validate_request(data_b))
                     logger.info('Клиенту отправлено сообщение')
 
+
 def main():
     logger.info('Старт приложения')
-    
+
     parser = argparse.ArgumentParser(description='Server parser.')
-    parser.add_argument('-a', '--address', type=str, required=False, action='store', default='', help='Set address')
-    parser.add_argument('-p', '--port', type=int, required=False, action='store', default=7777, help='Set port')
+    parser.add_argument('-a', '--address', type=str, required=False,
+                        action='store', default='', help='Set address')
+    parser.add_argument('-p', '--port', type=int, required=False,
+                        action='store', default=7777, help='Set port')
     args = parser.parse_args()
 
     myserver = Server(args.address, args.port)
     myserver.start()
 
-    
-if __name__ == "__main__":    
+
+if __name__ == "__main__":
     main()
-  
-                
